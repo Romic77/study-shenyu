@@ -16,7 +16,6 @@ shenyu:
       contextPath: /springcloud
       port: 8060
       nacosNameSpace: ShenyuRegisterCenter
-      isFull: true
 
 logging:
   level:
