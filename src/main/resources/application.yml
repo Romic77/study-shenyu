@@ -1,0 +1,24 @@
+server:
+  port: 8060
+spring:
+  application:
+    name: shenyu-study
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+shenyu:
+  client:
+    registerType: nacos #zookeeper #etcd #nacos #consul
+    serverLists: localhost:8848 #localhost:2181 #http://localhost:2379 #localhost:8848
+    props:
+      contextPath: /springcloud
+      port: 8060
+      nacosNameSpace: ShenyuRegisterCenter
+      isFull: true
+
+logging:
+  level:
+    root: info
+    org.apache.shenyu: debug
