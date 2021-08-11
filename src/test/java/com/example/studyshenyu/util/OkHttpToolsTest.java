@@ -27,4 +27,13 @@ public class OkHttpToolsTest {
         String result = OkHttpTools.getInstance().post("http://localhost:8060/test/save", paramMap);
         Assert.assertEquals("save success", result);
     }
+
+    @Test
+    public void testGetParam() throws IOException {
+        Map<String, Object> paramMap = new HashMap<>();
+        //paramMap.put("username", "zhangsan");
+        //paramMap.put("password", 123456);
+        String result = OkHttpTools.getInstance().get("http://localhost:8060/test/hello", paramMap);
+        Assert.assertEquals("hello shenyu", result);
+    }
 }

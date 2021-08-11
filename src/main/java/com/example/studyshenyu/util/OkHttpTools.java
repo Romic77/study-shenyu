@@ -18,21 +18,33 @@
 package com.example.studyshenyu.util;
 
 import okhttp3.*;
+import sun.net.www.content.image.jpeg;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+
 /**
- * OkHttpTools.
+ * OkHttpTools
  */
 public final class OkHttpTools {
+
 
     /**
      * The constant JSON.
      */
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+    /**
+     * The octet-stream
+     */
+    public static final MediaType FILE = MediaType.parse("application/octet-stream");
+
 
     private static final OkHttpTools OK_HTTP_TOOLS = new OkHttpTools();
 
@@ -57,7 +69,7 @@ public final class OkHttpTools {
     }
 
     /**
-     * post string.
+     * post json string
      *
      * @param url  the url
      * @param json the json
@@ -74,14 +86,15 @@ public final class OkHttpTools {
     }
 
     /**
-     * get string.
+     * get string
      *
      * @param url the url
      * @return the string
      * @throws IOException the io exception
      */
     public String get(final String url) throws IOException {
-        Request request = new Request.Builder().get()
+        Request request = new Request.Builder()
+                .get()
                 .url(url)
                 .build();
         return client.newCall(request).execute().body().string();
@@ -97,7 +110,7 @@ public final class OkHttpTools {
     public String get(String url, Map<String, Object> paramMap) throws IOException {
         // 拼接请求参数
         if (!paramMap.isEmpty()) {
-            StringBuffer buffer = new StringBuffer(url);
+            StringBuilder buffer = new StringBuilder(url);
             buffer.append('?');
             for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
                 buffer.append(entry.getKey());
@@ -115,9 +128,9 @@ public final class OkHttpTools {
     }
 
     /**
-     * post
+     * post with form
      *
-     * @param url the url
+     * @param url      the url
      * @param paramMap paramMap
      * @return the string
      * @throws IOException IOException
@@ -136,4 +149,46 @@ public final class OkHttpTools {
                 .build();
         return client.newCall(request).execute().body().string();
     }
+
+    /**
+     * post file
+     * @param url the url
+     * @param paramMap paramMap
+     * @param files files
+     * @return the string
+     * @throws IOException IOException
+     */
+    public String post(String url, Map<String, Object> paramMap, Map<String, File> files) throws IOException {
+        MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        //请求参数
+        if (!paramMap.isEmpty()) {
+            for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
+                body.addFormDataPart(entry.getKey(), entry.getValue().toString());
+            }
+        }
+        //文件参数
+        if (!files.isEmpty()) {
+            for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
+                RequestBody fileBody = RequestBody.create(files.get(entry.getKey()), FILE);
+                body.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + entry.getKey() + "\";filename=\"" + files.get(entry.getKey()).getName() + "\""), fileBody);
+            }
+        }
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body.build())
+                .build();
+        return client.newCall(request).execute().body().string();
+    }
+
+    //https://www.cnblogs.com/whoislcj/p/5529827.html
+    /**
+     * text/html：HTML格式
+     * text/pain：纯文本格式
+     * image/jpeg：jpg图片格式
+     * application/json：JSON数据格式
+     * application/octet-stream：二进制流数据（如常见的文件下载）
+     * application/x-www-form-urlencoded：form表单encType属性的默认格式，表单数据将以key/value的形式发送到服务端
+     * multipart/form-data：表单上传文件的格式
+     */
 }

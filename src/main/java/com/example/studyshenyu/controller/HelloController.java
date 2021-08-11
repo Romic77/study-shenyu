@@ -14,7 +14,7 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "hello shenyu";
+        return null;
     }
 
     @PostMapping("/save")
