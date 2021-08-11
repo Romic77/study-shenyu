@@ -1,5 +1,6 @@
 package com.example.studyshenyu.util;
 
+import cn.hutool.http.HttpUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
