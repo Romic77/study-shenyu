@@ -13,7 +13,7 @@ shenyu:
     registerType: nacos #zookeeper #etcd #nacos #consul
     serverLists: localhost:8848 #localhost:2181 #http://localhost:2379 #localhost:8848
     props:
-      contextPath: /springcloud
+      contextPath: /shenyu-study
       port: 8060
       nacosNameSpace: ShenyuRegisterCenter
 
