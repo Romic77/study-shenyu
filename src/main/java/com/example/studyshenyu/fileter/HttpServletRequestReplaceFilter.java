@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * 主要参考资料: https://www.cnblogs.com/pxzbky/p/13755771.html
+ */
 @Component
 @WebFilter(filterName = "HttpServletRequestReplaceFilter", urlPatterns = "/*")
 public class HttpServletRequestReplaceFilter implements Filter {
