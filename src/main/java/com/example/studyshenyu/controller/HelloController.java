@@ -1,11 +1,8 @@
 package com.example.studyshenyu.controller;
 
 
-import com.example.studyshenyu.util.OkHttpTools;
 import org.apache.shenyu.client.springcloud.annotation.ShenyuSpringCloudClient;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/test")
@@ -21,5 +18,11 @@ public class HelloController {
     public String save(@RequestParam("username") String username, @RequestParam("password") String password) {
         System.out.println("username:" + username + ";password:" + password);
         return "save success";
+    }
+
+    @PostMapping("/saveJson")
+    public String saveJson(@RequestBody String reqParam){
+        System.out.println(reqParam);
+        return reqParam;
     }
 }
